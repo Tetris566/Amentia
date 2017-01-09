@@ -343,6 +343,7 @@ public:
 	
 	// GETTERS //
 	FORCEINLINE bool GetIsArtifactSwapLocked() const;
+	FORCEINLINE bool GetAbilitiesOnCooldown() const;
 	UFUNCTION(BlueprintCallable, Category = "Artifact")
 	UKOA_BASE_Artifact* GetCurrArtifactReference() const;
 	UFUNCTION(BlueprintCallable, Category = "Artifact")

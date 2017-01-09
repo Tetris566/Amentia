@@ -531,6 +531,24 @@ bool AKOA_PROTO_Character::GetIsArtifactSwapLocked() const {
 	return IsArtifactSwapLocked;
 }
 
+bool AKOA_PROTO_Character::GetAbilitiesOnCooldown() const {
+	//Set true if any abilities are on CD.
+	if (CurrentArtifact != EArtifactID::ID_NULL) {
+		// Get the current artifact
+		UKOA_BASE_Artifact* artifact = CollectedArtifacts[(uint8)CurrentArtifact]->GetDefaultObject<UKOA_BASE_Artifact>();
+		if (artifact->GetIsBasicAttackOnCooldown()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, "ERROR: No CurrentArtifact for Light Attack.");
+		return false;
+	}
+}
+
 UKOA_BASE_Artifact* AKOA_PROTO_Character::GetCurrArtifactReference() const {
 	UKOA_BASE_Artifact* ptr = nullptr;
 	if (CurrentArtifact != EArtifactID::ID_NULL) {
