@@ -460,7 +460,7 @@ void AKOA_PROTO_Character::EquipDualDaggers() {
 		// Lock artifact swaping
 		IsArtifactSwapLocked = true;
 		// Lock ability use
-		IsAbilityUseLocked = true;
+		//IsAbilityUseLocked = true;
 		StartArtifactSwapLockTimer(ArtifactSwapLockDuration);
 	}
 }
@@ -473,7 +473,7 @@ void AKOA_PROTO_Character::EquipFireGlove() {
 		// Lock artifact swaping
 		IsArtifactSwapLocked = true;
 		// Lock ability use
-		IsAbilityUseLocked = true;
+		//IsAbilityUseLocked = true;
 		StartArtifactSwapLockTimer(ArtifactSwapLockDuration);
 	}
 }
@@ -486,7 +486,7 @@ void AKOA_PROTO_Character::EquipMatterHammer() {
 		// Lock artifact swaping
 		IsArtifactSwapLocked = true;
 		// Lock ability use
-		IsAbilityUseLocked = true;
+		//IsAbilityUseLocked = true;
 		StartArtifactSwapLockTimer(ArtifactSwapLockDuration);
 	}
 	else {

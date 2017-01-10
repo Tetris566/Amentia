@@ -20,6 +20,8 @@ public: // Methods
 	UKOA_Artifact_MatterHammer(const FObjectInitializer& ObjectInitializer);
 	void Tick(float DeltaTime);
 
+	TSubclassOf<AActor> MH_Plat;
+
 	// Basic Attacks
 	void UseLightAttack();
 
