@@ -41,8 +41,6 @@ void UKOA_Artifact_MatterHammer::UseLightAttack() {
 //********** PRESS ABILITY **********//
 void UKOA_Artifact_MatterHammer::PressAbilityQ() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "You pressed MatterHammer::Q");
-	AbilityQ.SetAbilityOnCooldown();
-	StartAbilityCooldownTimer(EAbilityID::ABID_Q);
 }
 
 void UKOA_Artifact_MatterHammer::PressAbilityW() {
@@ -65,6 +63,12 @@ void UKOA_Artifact_MatterHammer::PressAbilityR() {
 
 void UKOA_Artifact_MatterHammer::ReleaseAbilityQ() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released MatterHammer::Q");
+
+	//Spawn Object...
+	GetPlayerReference()->GetWorld()->SpawnActor(MH_Plat, &TempPos);
+
+	AbilityQ.SetAbilityOnCooldown();
+	StartAbilityCooldownTimer(EAbilityID::ABID_Q);
 }
 
 void UKOA_Artifact_MatterHammer::ReleaseAbilityW() {
@@ -109,19 +113,19 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 		FActorSpawnParameters SpawnInfo;
 
 		// If the dist is less than the MaxCastRange
-		if (distFromPlayerToMouse < AbilityE.MaxCastRange) {
+		if (distFromPlayerToMouse < AbilityQ.MaxCastRange) {
 			finalPos = mousePos;
 		}
 		else {
 			// Make it so the platform can't go beyond the MaxCastRange
 			FVector vectorFromPlayerToMouse = FVector(mousePos - playerPos);
 			vectorFromPlayerToMouse.Normalize();
-			finalPos = playerPos + vectorFromPlayerToMouse * AbilityE.MaxCastRange;
+			finalPos = playerPos + vectorFromPlayerToMouse * AbilityQ.MaxCastRange;
+
 			TempPos = finalPos;
 		}
 	}
-		//Spawn Object...
-		GetPlayerReference()->GetWorld()->SpawnActor(MH_Plat, &TempPos);
+		//Spawn Object when released.
 		break;
 	case EAbilityID::ABID_W:
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Aiming Pillar...");
