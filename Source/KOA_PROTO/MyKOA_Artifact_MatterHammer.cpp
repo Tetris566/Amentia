@@ -12,8 +12,8 @@ UKOA_Artifact_MatterHammer::UKOA_Artifact_MatterHammer(const FObjectInitializer&
 	ArtifactName = "It Doesn't Matter Hammer";
 	LightBasicAttackLockDuration = 1.0f;
 
-	static ConstructorHelpers::FObjectFinder<UClass> Platform(TEXT("Class'/Game/Artifacts/MatterHammer/Abilities/MH_PlatformBP.MH_PlatformBP_C'"));
-	MH_Plat = Platform.Object;
+	//static ConstructorHelpers::FObjectFinder<UClass> Platform(TEXT("Class'/Game/Artifacts/MatterHammer/Abilities/MH_PlatformBP.MH_PlatformBP_C'"));
+	//MH_Plat = Platform.Object;
 
 	// ABILITY Q //
 	AbilityQ.AbilityName = "Platform";
@@ -117,7 +117,7 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 	}
 		//TODO
 		//Spawn Object...
-		GetWorld()->SpawnActor(MH_Plat);
+		//GetWorld()->SpawnActor(MH_Plat);
 		break;
 	case EAbilityID::ABID_W:
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Aiming Pillar...");
