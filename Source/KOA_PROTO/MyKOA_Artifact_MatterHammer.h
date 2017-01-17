@@ -36,4 +36,8 @@ public: // Methods
 	void ReleaseAbilityW();
 	void ReleaseAbilityE();
 	void ReleaseAbilityR();
+
+private:
+	FVector TempPos;
+
 };

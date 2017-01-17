@@ -12,6 +12,8 @@ UKOA_Artifact_MatterHammer::UKOA_Artifact_MatterHammer(const FObjectInitializer&
 	ArtifactName = "It Doesn't Matter Hammer";
 	LightBasicAttackLockDuration = 1.0f;
 
+	
+
 	static ConstructorHelpers::FObjectFinder<UClass> Platform(TEXT("Class'/Game/Artifacts/MatterHammer/Abilities/MH_PlatformBP.MH_PlatformBP_C'"));
 	MH_Plat = Platform.Object;
 
@@ -84,6 +86,7 @@ void UKOA_Artifact_MatterHammer::ReleaseAbilityR() {
 
 //******************** TICK ********************//
 void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
+
 	switch (GetCurrentHeldAbilityButton()) {
 	case EAbilityID::ABID_Q:
 	{
@@ -104,6 +107,7 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 		FVector finalPos;
 		FVector finalRot;
 		FActorSpawnParameters SpawnInfo;
+
 		// If the dist is less than the MaxCastRange
 		if (distFromPlayerToMouse < AbilityE.MaxCastRange) {
 			finalPos = mousePos;
@@ -113,11 +117,11 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 			FVector vectorFromPlayerToMouse = FVector(mousePos - playerPos);
 			vectorFromPlayerToMouse.Normalize();
 			finalPos = playerPos + vectorFromPlayerToMouse * AbilityE.MaxCastRange;
+			TempPos = finalPos;
 		}
 	}
-		//TODO
 		//Spawn Object...
-		GetPlayerReference()->GetWorld()->SpawnActor(MH_Plat);
+		GetPlayerReference()->GetWorld()->SpawnActor(MH_Plat, &TempPos);
 		break;
 	case EAbilityID::ABID_W:
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Aiming Pillar...");
