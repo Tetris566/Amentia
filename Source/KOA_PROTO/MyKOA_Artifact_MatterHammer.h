@@ -21,6 +21,7 @@ public: // Methods
 	void Tick(float DeltaTime);
 
 	TSubclassOf<AActor> MH_Plat;
+	TSubclassOf<AActor> MH_Pill;
 
 	// Basic Attacks
 	void UseLightAttack();

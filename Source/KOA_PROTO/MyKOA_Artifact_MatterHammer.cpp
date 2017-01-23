@@ -17,6 +17,9 @@ UKOA_Artifact_MatterHammer::UKOA_Artifact_MatterHammer(const FObjectInitializer&
 	static ConstructorHelpers::FObjectFinder<UClass> Platform(TEXT("Class'/Game/Artifacts/MatterHammer/Abilities/MH_PlatformBP.MH_PlatformBP_C'"));
 	MH_Plat = Platform.Object;
 
+	static ConstructorHelpers::FObjectFinder<UClass> Pillar(TEXT("Class'/Game/Artifacts/MatterHammer/Abilities/MH_PillarBP.MH_PillarBP_C'"));
+	MH_Pill = Pillar.Object;
+
 	// ABILITY Q //
 	AbilityQ.AbilityName = "Platform";
 	AbilityQ.AbilityOnCooldown = false;
@@ -45,8 +48,6 @@ void UKOA_Artifact_MatterHammer::PressAbilityQ() {
 
 void UKOA_Artifact_MatterHammer::PressAbilityW() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed MatterHammer::W");
-	AbilityW.SetAbilityOnCooldown();
-	StartAbilityCooldownTimer(EAbilityID::ABID_W);
 }
 
 void UKOA_Artifact_MatterHammer::PressAbilityE() {
@@ -73,7 +74,12 @@ void UKOA_Artifact_MatterHammer::ReleaseAbilityQ() {
 
 void UKOA_Artifact_MatterHammer::ReleaseAbilityW() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released MatterHammer::W");
-	//StartAbilityCooldownTimer(EAbilityID::ABID_W);
+	
+	//Spawn Object...
+	GetPlayerReference()->GetWorld()->SpawnActor(MH_Pill, &TempPos);
+
+	AbilityW.SetAbilityOnCooldown();
+	StartAbilityCooldownTimer(EAbilityID::ABID_W);
 }
 
 void UKOA_Artifact_MatterHammer::ReleaseAbilityE() {
@@ -128,14 +134,45 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 		//Spawn Object when released.
 		break;
 	case EAbilityID::ABID_W:
+	{
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Aiming Pillar...");
+		// Get a reference to the player
+		AKOA_PROTO_Character* player = GetPlayerReference();
+
+		// Get the mousePos using the UTILITY function
+		FVector mousePos = UTIL_MouseFunctionality::GetMousePosInPlayerPlane(player->GetWorldPtr());
+
+		// Get the playerPos
+		FVector playerPos = player->GetActorLocation();
+		// Check distance from player to mouse
+		float distFromPlayerToMouse = FVector::Dist(playerPos, mousePos);
+
+		// Initialize the finalPos
+		FVector finalPos;
+		FVector finalRot;
+		FActorSpawnParameters SpawnInfo;
+
+		// If the dist is less than the MaxCastRange
+		if (distFromPlayerToMouse < AbilityW.MaxCastRange) {
+			TempPos = mousePos;
+		}
+		else {
+			// Make it so the platform can't go beyond the MaxCastRange
+			FVector vectorFromPlayerToMouse = FVector(mousePos - playerPos);
+			vectorFromPlayerToMouse.Normalize();
+			finalPos = playerPos + vectorFromPlayerToMouse * AbilityW.MaxCastRange;
+
+			TempPos = finalPos;
+		}
+	}
+		//Spawn Pillar when released.
 		break;
 	case EAbilityID::ABID_E:
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Using MatterHammer: E...");
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Holding MH:E...");
 		break;
 	break;
 	case EAbilityID::ABID_R:
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Using MatterHammer: R...");
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Holding MH:R...");
 		break;
 	default:
 		break;
