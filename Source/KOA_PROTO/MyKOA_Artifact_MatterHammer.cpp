@@ -150,22 +150,68 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 
 		// Initialize the finalPos
 		FVector finalPos;
+		FVector LineEnd;
 		FVector finalRot;
 		FActorSpawnParameters SpawnInfo;
 
 		// If the dist is less than the MaxCastRange
 		if (distFromPlayerToMouse < AbilityW.MaxCastRange) {
-			PillPos = mousePos;
+
+			finalPos = mousePos;
+			LineEnd = FVector(finalPos.X, finalPos.Y, finalPos.Z - 500);
+
+			FCollisionQueryParams RV_TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true);
+			RV_TraceParams.bTraceComplex = true;
+			RV_TraceParams.bTraceAsyncScene = true;
+			RV_TraceParams.bReturnPhysicalMaterial = false;
+
+			//Re-initialize hit info
+			FHitResult RV_Hit(ForceInit);
+
+			//call GetWorld() from within an actor extending class
+			GetPlayerReference()->GetWorld()->LineTraceSingleByChannel(
+				RV_Hit,        //result
+				finalPos,      //start
+				LineEnd,       //end
+				ECC_Pawn,      //collision channel
+				RV_TraceParams
+				);
+
+			if (RV_Hit.bBlockingHit) {
+				PillPos = RV_Hit.ImpactPoint;
+			}
 		}
 		else {
 			// Make it so the platform can't go beyond the MaxCastRange
 			FVector vectorFromPlayerToMouse = FVector(mousePos - playerPos);
 			vectorFromPlayerToMouse.Normalize();
 			finalPos = playerPos + vectorFromPlayerToMouse * AbilityW.MaxCastRange;
+			LineEnd = FVector(finalPos.X, finalPos.Y, finalPos.Z - 500);
 
 			//TODO: Attach to floor...
+			
+			FCollisionQueryParams RV_TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true);
+			RV_TraceParams.bTraceComplex = true;
+			RV_TraceParams.bTraceAsyncScene = true;
+			RV_TraceParams.bReturnPhysicalMaterial = false;
 
-			PillPos = finalPos;
+			//Re-initialize hit info
+			FHitResult RV_Hit(ForceInit);
+
+			//call GetWorld() from within an actor extending class
+			GetPlayerReference()->GetWorld()->LineTraceSingleByChannel(
+				RV_Hit,        //result
+				finalPos,      //start
+				LineEnd,       //end
+				ECC_Pawn,      //collision channel
+				RV_TraceParams
+			);
+
+			if (RV_Hit.bBlockingHit) {
+				PillPos = RV_Hit.ImpactPoint;
+			}
+
+			//PillPos = finalPos;
 		}
 	}
 		//Spawn Pillar when released.
