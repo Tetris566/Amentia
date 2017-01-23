@@ -39,6 +39,7 @@ public: // Methods
 	void ReleaseAbilityR();
 
 private:
-	FVector TempPos;
+	FVector PlatPos;
+	FVector PillPos;
 
 };

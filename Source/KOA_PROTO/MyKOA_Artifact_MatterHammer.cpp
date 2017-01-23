@@ -66,7 +66,7 @@ void UKOA_Artifact_MatterHammer::ReleaseAbilityQ() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released MatterHammer::Q");
 
 	//Spawn Object...
-	GetPlayerReference()->GetWorld()->SpawnActor(MH_Plat, &TempPos);
+	GetPlayerReference()->GetWorld()->SpawnActor(MH_Plat, &PlatPos);
 
 	AbilityQ.SetAbilityOnCooldown();
 	StartAbilityCooldownTimer(EAbilityID::ABID_Q);
@@ -76,7 +76,7 @@ void UKOA_Artifact_MatterHammer::ReleaseAbilityW() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released MatterHammer::W");
 	
 	//Spawn Object...
-	GetPlayerReference()->GetWorld()->SpawnActor(MH_Pill, &TempPos);
+	GetPlayerReference()->GetWorld()->SpawnActor(MH_Pill, &PillPos);
 
 	AbilityW.SetAbilityOnCooldown();
 	StartAbilityCooldownTimer(EAbilityID::ABID_W);
@@ -120,7 +120,7 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 
 		// If the dist is less than the MaxCastRange
 		if (distFromPlayerToMouse < AbilityQ.MaxCastRange) {
-			TempPos = mousePos;
+			PlatPos = mousePos;
 		}
 		else {
 			// Make it so the platform can't go beyond the MaxCastRange
@@ -128,7 +128,7 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 			vectorFromPlayerToMouse.Normalize();
 			finalPos = playerPos + vectorFromPlayerToMouse * AbilityQ.MaxCastRange;
 
-			TempPos = finalPos;
+			PlatPos = finalPos;
 		}
 	}
 		//Spawn Object when released.
@@ -154,7 +154,7 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 
 		// If the dist is less than the MaxCastRange
 		if (distFromPlayerToMouse < AbilityW.MaxCastRange) {
-			TempPos = mousePos;
+			PillPos = mousePos;
 		}
 		else {
 			// Make it so the platform can't go beyond the MaxCastRange
@@ -162,7 +162,7 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 			vectorFromPlayerToMouse.Normalize();
 			finalPos = playerPos + vectorFromPlayerToMouse * AbilityW.MaxCastRange;
 
-			TempPos = finalPos;
+			PillPos = finalPos;
 		}
 	}
 		//Spawn Pillar when released.
