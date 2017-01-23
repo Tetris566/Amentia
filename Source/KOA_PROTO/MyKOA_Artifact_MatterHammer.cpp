@@ -20,6 +20,9 @@ UKOA_Artifact_MatterHammer::UKOA_Artifact_MatterHammer(const FObjectInitializer&
 	static ConstructorHelpers::FObjectFinder<UClass> Pillar(TEXT("Class'/Game/Artifacts/MatterHammer/Abilities/MH_PillarBP.MH_PillarBP_C'"));
 	MH_Pill = Pillar.Object;
 
+	static ConstructorHelpers::FObjectFinder<UClass> SlowBall(TEXT("Class'/Game/Artifacts/MatterHammer/Abilities/MH_SlowBallBP.MH_SlowBallBP_C'"));
+	MH_Ball = SlowBall.Object;
+
 	// ABILITY Q //
 	AbilityQ.AbilityName = "Platform";
 	AbilityQ.AbilityOnCooldown = false;
@@ -52,8 +55,6 @@ void UKOA_Artifact_MatterHammer::PressAbilityW() {
 
 void UKOA_Artifact_MatterHammer::PressAbilityE() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed MatterHammer::E");
-	//Spawn projectile now.
-	//GetPlayerReference()->GetWorld()->SpawnActor(MH_Plat, &PlatPos);
 }
 
 void UKOA_Artifact_MatterHammer::PressAbilityR() {
@@ -85,6 +86,13 @@ void UKOA_Artifact_MatterHammer::ReleaseAbilityW() {
 
 void UKOA_Artifact_MatterHammer::ReleaseAbilityE() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released MatterHammer::E");
+
+	//Spawn projectile now.
+	AKOA_PROTO_Character* player = GetPlayerReference();
+	FVector playerPos = player->GetActorLocation();
+	BallPos = FVector(playerPos.X, playerPos.Y, playerPos.Z + 10);
+	GetPlayerReference()->GetWorld()->SpawnActor(MH_Ball, &BallPos);
+
 	AbilityE.SetAbilityOnCooldown();
 	StartAbilityCooldownTimer(EAbilityID::ABID_E);
 }

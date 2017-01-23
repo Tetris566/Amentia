@@ -22,6 +22,7 @@ public: // Methods
 
 	TSubclassOf<AActor> MH_Plat;
 	TSubclassOf<AActor> MH_Pill;
+	TSubclassOf<AActor> MH_Ball;
 
 	// Basic Attacks
 	void UseLightAttack();
@@ -41,5 +42,6 @@ public: // Methods
 private:
 	FVector PlatPos;
 	FVector PillPos;
+	FVector BallPos;
 
 };
