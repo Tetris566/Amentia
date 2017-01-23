@@ -43,7 +43,7 @@ void UKOA_Artifact_MatterHammer::UseLightAttack() {
 
 //********** PRESS ABILITY **********//
 void UKOA_Artifact_MatterHammer::PressAbilityQ() {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "You pressed MatterHammer::Q");
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed MatterHammer::Q");
 }
 
 void UKOA_Artifact_MatterHammer::PressAbilityW() {
@@ -51,8 +51,9 @@ void UKOA_Artifact_MatterHammer::PressAbilityW() {
 }
 
 void UKOA_Artifact_MatterHammer::PressAbilityE() {
-	AKOA_PROTO_Character* player = GetPlayerReference();
-	player->SetIsMovementInputDisabled(true);
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed MatterHammer::E");
+	//Spawn projectile now.
+	//GetPlayerReference()->GetWorld()->SpawnActor(MH_Plat, &PlatPos);
 }
 
 void UKOA_Artifact_MatterHammer::PressAbilityR() {
@@ -83,14 +84,14 @@ void UKOA_Artifact_MatterHammer::ReleaseAbilityW() {
 }
 
 void UKOA_Artifact_MatterHammer::ReleaseAbilityE() {
-	// Set the aiming mesh component visibility to false
-	AKOA_PROTO_Character* player = GetPlayerReference();
-	player->SetIsMovementInputDisabled(false);
+	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released MatterHammer::E");
+	AbilityE.SetAbilityOnCooldown();
 	StartAbilityCooldownTimer(EAbilityID::ABID_E);
 }
 
 void UKOA_Artifact_MatterHammer::ReleaseAbilityR() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You released MatterHammer::R");
+	AbilityR.SetAbilityOnCooldown();
 	StartAbilityCooldownTimer(EAbilityID::ABID_R);
 }
 
@@ -161,6 +162,8 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 			FVector vectorFromPlayerToMouse = FVector(mousePos - playerPos);
 			vectorFromPlayerToMouse.Normalize();
 			finalPos = playerPos + vectorFromPlayerToMouse * AbilityW.MaxCastRange;
+
+			//TODO: Attach to floor...
 
 			PillPos = finalPos;
 		}
