@@ -114,7 +114,7 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 
 		// If the dist is less than the MaxCastRange
 		if (distFromPlayerToMouse < AbilityQ.MaxCastRange) {
-			finalPos = mousePos;
+			TempPos = mousePos;
 		}
 		else {
 			// Make it so the platform can't go beyond the MaxCastRange
