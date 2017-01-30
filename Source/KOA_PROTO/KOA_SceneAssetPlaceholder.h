@@ -65,5 +65,7 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 	
 	//Comment out to use in VS Debug.
+	#if WITH_EDITOR
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+	#endif
 };
