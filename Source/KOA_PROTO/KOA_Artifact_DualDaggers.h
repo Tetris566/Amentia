@@ -8,6 +8,7 @@
 /**
  * 
  */
+
 class AKOA_PROTO_Character;
 
 UCLASS()

@@ -93,7 +93,7 @@ void UKOA_Artifact_MatterHammer::ReleaseAbilityE() {
 	BallPos = FVector(playerPos.X, playerPos.Y, playerPos.Z + 10);
 	GetPlayerReference()->GetWorld()->SpawnActor(MH_Ball, &BallPos);
 
-	AbilityE.SetAbilityOnCooldown();
+	//AbilityE.SetAbilityOnCooldown();
 	StartAbilityCooldownTimer(EAbilityID::ABID_E);
 }
 
@@ -218,8 +218,6 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 			if (RV_Hit.bBlockingHit) {
 				PillPos = RV_Hit.ImpactPoint;
 			}
-
-			//PillPos = finalPos;
 		}
 	}
 		//Spawn Pillar when released.

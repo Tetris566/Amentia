@@ -49,6 +49,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	// Override to update changes made in the editor
+	// Override to update changes made in the editor, comment out to use in VS Debug.
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 };

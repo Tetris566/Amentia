@@ -57,7 +57,7 @@ void AKOA_BASE_Monster::SetupPlayerInputComponent(class UInputComponent* InputCo
 
 }
 
-#if WITH_EDITOR
+//#if WITH_EDITOR
 void AKOA_BASE_Monster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
 	FName propertyName = (PropertyChangedEvent.Property != NULL) ? PropertyChangedEvent.Property->GetFName() : NAME_None;
 	if (propertyName == GET_MEMBER_NAME_CHECKED(AKOA_BASE_Monster, SightRange)) {
@@ -68,4 +68,4 @@ void AKOA_BASE_Monster::PostEditChangeProperty(struct FPropertyChangedEvent& Pro
 	}
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
-#endif
+//#endif

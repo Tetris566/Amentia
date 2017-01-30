@@ -64,5 +64,6 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 	
+	//Comment out to use in VS Debug.
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 };
