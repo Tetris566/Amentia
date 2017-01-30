@@ -176,6 +176,8 @@ public:
 	UStaticMesh* ArtifactMesh;
 	UPROPERTY(EditAnywhere, Category = "Stats|Combat")
 	float LightBasicAttackLockDuration;
+	UPROPERTY(EditAnywhere, Category = "Stats|Combat")
+	float LightBasicAttackDamage;
 	//UPROPERTY(EditAnywhere, Category = "Stats|Combat")
 	//float HeavyBasicAttackLockDuration;
 	UPROPERTY(EditAnywhere, Category = "Stats|Combat|StatusEffects")
@@ -264,6 +266,11 @@ public:
 		}
 		return stats;
 	}
+
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+		float GetLightDamage() const {
+			return LightBasicAttackDamage;
+		}
 	
 	FORCEINLINE FAbilityTimerHandles GetArtifactAbilityTimerHandles() const {
 		return AbilityTimerHandles;

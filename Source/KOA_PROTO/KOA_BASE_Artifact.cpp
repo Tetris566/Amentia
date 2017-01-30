@@ -11,6 +11,7 @@ UKOA_BASE_Artifact::UKOA_BASE_Artifact() {
 	ArtifactIconTexture = nullptr;
 	ArtifactMesh = nullptr;
 	LightBasicAttackLockDuration = 5.0f;
+	LightBasicAttackDamage = 1.0f;
 	// ABILITY //
 	IsArtifactStormUnlocked = false;
 	
