@@ -12,7 +12,7 @@ UKOA_Artifact_MatterHammer::UKOA_Artifact_MatterHammer(const FObjectInitializer&
 	ArtifactName = "It Doesn't Matter Hammer";
 	LightBasicAttackLockDuration = 1.0f;
 
-	
+	BallCharge = 0.0f;
 
 	static ConstructorHelpers::FObjectFinder<UClass> Platform(TEXT("Class'/Game/Artifacts/MatterHammer/Abilities/MH_PlatformBP.MH_PlatformBP_C'"));
 	MH_Plat = Platform.Object;
@@ -55,6 +55,7 @@ void UKOA_Artifact_MatterHammer::PressAbilityW() {
 
 void UKOA_Artifact_MatterHammer::PressAbilityE() {
 	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0, FColor::Cyan, "CODE: You pressed MatterHammer::E");
+	BallCharge = 0;
 }
 
 void UKOA_Artifact_MatterHammer::PressAbilityR() {
@@ -89,11 +90,22 @@ void UKOA_Artifact_MatterHammer::ReleaseAbilityE() {
 
 	//Spawn projectile now.
 	AKOA_PROTO_Character* player = GetPlayerReference();
-	FVector playerPos = player->GetActorLocation();
-	BallPos = FVector(playerPos.X, playerPos.Y, playerPos.Z + 10);
-	GetPlayerReference()->GetWorld()->SpawnActor(MH_Ball, &BallPos);
 
-	//AbilityE.SetAbilityOnCooldown();
+	// Get the mousePos using the UTILITY function
+	FVector mousePos = UTIL_MouseFunctionality::GetMousePosInPlayerPlane(player->GetWorldPtr());
+
+	// Get the playerPos
+	FVector playerPos = player->GetActorLocation();
+
+	FVector Dir = mousePos - playerPos;
+	//Dir.Normalize();
+	FRotator GoodRot = Dir.Rotation();
+	GoodRot = GoodRot.GetNormalized();
+
+	BallPos = FVector(playerPos.X, playerPos.Y, playerPos.Z + 10);
+	AActor* Ball = GetPlayerReference()->GetWorld()->SpawnActor(MH_Ball, &BallPos, &GoodRot);
+
+	AbilityE.SetAbilityOnCooldown();
 	StartAbilityCooldownTimer(EAbilityID::ABID_E);
 }
 
@@ -223,7 +235,13 @@ void UKOA_Artifact_MatterHammer::Tick(float DeltaTime) {
 		//Spawn Pillar when released.
 		break;
 	case EAbilityID::ABID_E:
+	{
 		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Cyan, "Holding MH:E...");
+		BallCharge += 1 * DeltaTime;
+		if (BallCharge >= 3.0) {
+			BallCharge = 3.0f;
+		}
+	}
 		break;
 	break;
 	case EAbilityID::ABID_R:

@@ -44,4 +44,6 @@ private:
 	FVector PillPos;
 	FVector BallPos;
 
+	float BallCharge;
+
 };
