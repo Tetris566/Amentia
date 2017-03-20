@@ -21,6 +21,8 @@ public: // Methods
 	void Tick(float DeltaTime);
 
 	TSubclassOf<AActor> MH_Plat;
+	TSubclassOf<AActor> MH_Pill;
+	TSubclassOf<AActor> MH_Ball;
 
 	// Basic Attacks
 	void UseLightAttack();
@@ -36,4 +38,10 @@ public: // Methods
 	void ReleaseAbilityW();
 	void ReleaseAbilityE();
 	void ReleaseAbilityR();
+
+private:
+	FVector PlatPos;
+	FVector PillPos;
+	FVector BallPos;
+
 };
